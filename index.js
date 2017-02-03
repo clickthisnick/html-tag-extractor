@@ -7,6 +7,7 @@ const walk = require('walk'),
 
 // The list of elements
 let elements = [],
+    elementsInfo = [],
     blackList = false,
     whiteList = false;
 
@@ -26,51 +27,70 @@ function walkThroughChildren(element, filepath) {
     // Push unique element html to our elements array
     if (element.name === cfg.tag) {
         let elementHtml = `<${element.name} `,
+            attributes = _.keys(element.attribs),
             validAttributes = [];
 
-        _.forEach(_.keys(element.attribs), (attribute) => {
+        if (!cfg.attributeSortingMatter) {
+            attributes = attributes.sort();
+        }
+
+        _.forEach(attributes, (attribute) => {
+            let attributeValues = element.attribs[attribute].split(' ');
+
+            if (!cfg.attributeSortingMatter) {
+                attributeValues = _.join(attributeValues.sort(), ' ');
+            }
 
             // Blacklist
             if (blackList && !_.includes(cfg.blackListAttributes, attribute)) {
                 validAttributes.push(attribute);
-                elementHtml += `${attribute}='${element.attribs[attribute]}'`;
+                elementHtml += `${attribute}='${attributeValues}'`;
             }
 
             // Whitelist
             if (whiteList && _.includes(cfg.whiteListAttributes, attribute)) {
                 validAttributes.push(attribute);
-                elementHtml += `${attribute}='${element.attribs[attribute]}'`;
+                elementHtml += `${attribute}='${attributeValues}'`;
             }
         })
+
         // Closing the dom element
-        elementHtml += `></${element.name}>`
+        elementHtml += `>${cfg.nestedElement}</${element.name}>`
 
-        // Showing the attribute that make up the element
-        if (cfg.showAttrbutes && validAttributes.length > 0) {
+        // Pushing unique elements into our elements array
+        if (!_.includes(elements, elementHtml)) {
+            let elementInfoText = '';
 
-            elementHtml += cfg.showAttributesWrapping[0];
+            // Showing the attribute that make up the element
+            if (cfg.showAttrbutes && validAttributes.length > 0) {
 
-            // Showing only the valid attributes
-            _.forEach(validAttributes, (attribute, idx) => {
-                elementHtml += `${attribute}=`;
-                elementHtml += `'${element.attribs[attribute]}'`;
-                if (idx !== validAttributes.length -1) {
-                    elementHtml += cfg.showAttributesDelimter
-                }
-            })
+                elementInfoText += cfg.showAttributesWrapping[0];
 
-            elementHtml += cfg.showAttributesWrapping[1];
+                // Showing only the valid attributes
+                _.forEach(validAttributes, (attribute, idx) => {
+                    elementInfoText += `${attribute}=`;
+                    elementInfoText += `'${element.attribs[attribute]}'`;
+                    if (idx !== validAttributes.length -1) {
+                        elementInfoText += cfg.showAttributesDelimter
+                    }
+                })
+
+                elementInfoText += cfg.showAttributesWrapping[1];
+            }
+
+            // Adding the file path if needed
+            if (cfg.showFilePath) {
+                elementInfoText += cfg.showFilePathWrapping[0];
+                elementInfoText += filepath;
+                elementInfoText += cfg.showFilePathWrapping[1];
+            }
+
+            // The elements array contains unique elements
+            elements.push(elementHtml);
+
+            // The element info array contains extra info about the element
+            elementsInfo.push(elementInfoText);
         }
-
-        // Adding the file path if needed
-        if (cfg.showFilePath) {
-            elementHtml += cfg.showFilePathWrapping[0];
-            elementHtml += filepath;
-            elementHtml += cfg.showFilePathWrapping[1];
-        }
-
-        // Pushing element into our elements array
-        elements.push(elementHtml);
     }
 
     // Keep walking through the elements children
@@ -96,7 +116,13 @@ let options = {
             next();
         },
         end: function() {
-            const htmlOfElements = _.join(_.uniq(elements), cfg.delimiter)
+            let htmlElementWithInfoArray = [];
+
+            _.forEach(elements ,(element, idx) => {
+                htmlElementWithInfoArray.push(`${element}${elementsInfo[idx]}`);
+            })
+
+            const htmlOfElements = _.join(htmlElementWithInfoArray, cfg.delimiter)
             fs.writeFile(cfg.outputFile, htmlOfElements, (err) => {
                 if(err) {
                     return console.log(err);

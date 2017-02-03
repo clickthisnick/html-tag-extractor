@@ -1,10 +1,12 @@
-inputDirectory: "." # The directory to recursively search for files
-outputFile: "tmp.html" # The directory that the resulting text will be saved to
-ignoreDirectories: ["node_modules"] # The name of folders that we will skip
+inputDirectory: '.' # The directory to recursively search for files
+outputFile: 'tmp.html' # The directory that the resulting text will be saved to
+ignoreDirectories: ['node_modules', 'bower_components'] # The name of folders that we will skip
+fileExtensionsToScan: ['.html'] # Only parse files with this extension
 
-tag: "button" # The tag <*></*> of the element we want
-delimiter: "<br><br>" # The string that will be between the dom elements we find
-fileExtensionsToScan: [".html"] # Only parse files with this extension
+tag: 'button' # The tag <*></*> of the element we want button, img, i, font, input
+delimiter: '<br><br>' # The string that will be between the dom elements we find
+nestedElement: 'Example'# Anything to put inbetween the element <*> </*> you gind
+attributeSortingMatter: false # True or False if attribute sorting matters
 
 showFilePathWrapping: ['<br><b>', '</b>'] # The wrapping around the filePath
 showFilePath: ture # Whether to show the file path
