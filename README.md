@@ -21,7 +21,7 @@ delimiter: "<br>"
 fileExtensionsToScan: [".html"]
 
 Run in terminal:
-node code.js
+node index.js
 
 This code would walk through the /Users/Desktop/website directory and extract any <button></button> button elements from html files
 

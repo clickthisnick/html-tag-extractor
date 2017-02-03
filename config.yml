@@ -1,5 +1,17 @@
-path: "."
-ignoreDirectories: ["node_modules"]
-tag: "button"
-delimiter: "<br>"
-fileExtensionsToScan: [".html"]
+inputDirectory: "." # The directory to recursively search for files
+outputFile: "tmp.html" # The directory that the resulting text will be saved to
+ignoreDirectories: ["node_modules"] # The name of folders that we will skip
+
+tag: "button" # The tag <*></*> of the element we want
+delimiter: "<br><br>" # The string that will be between the dom elements we find
+fileExtensionsToScan: [".html"] # Only parse files with this extension
+
+showFilePathWrapping: ['<br><b>', '</b>'] # The wrapping around the filePath
+showFilePath: ture # Whether to show the file path
+
+showAttributesWrapping: ['<br><b>', '</b>'] # The wrapping around the attributes
+showAttributesDelimter: ' | ' # The delimter between the attributes
+showAttrbutes: true # Whether to show the atrributes
+
+blackListAttributes: [] # Attributes to ignore, like onclick that do not change the styling of elements
+whiteListAttributes: ['id', 'class'] # Alternatively instead of blacklisting you can just specify ONLY the attribute you want

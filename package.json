@@ -1,5 +1,5 @@
 {
-  "name": "uishit",
+  "name": "html-tag-extractor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +14,6 @@
     "htmlparser": "^1.7.7",
     "lodash": "^4.17.4",
     "walk": "^2.3.9",
-    "yamljs": "^0.2.8",
-    "yargs": "^6.6.0"
+    "yamljs": "^0.2.8"
   }
 }
