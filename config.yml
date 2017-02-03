@@ -1,0 +1,5 @@
+path: "."
+ignoreDirectories: ["node_modules"]
+tag: "button"
+delimiter: "<br>"
+fileExtensionsToScan: [".html"]
