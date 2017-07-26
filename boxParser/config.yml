@@ -1,0 +1,7 @@
+inputDirectory: '/Users/nick/dev/hbng' # The directory to recursively search for files
+outputFile: 'tmp.html' # The directory that the resulting text will be saved to
+ignoreDirectories: ['node_modules', 'bower_components'] # The name of folders that we will skip
+fileExtensionsToScan: ['html', 'js'] # Only parse files with this extension
+left: 'toast.success).toHaveBeenCalledWith(' # The string on the left
+right: ')' # The string on the right
+showFilePath: true # Whether to show the file path
