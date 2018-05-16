@@ -1,4 +1,6 @@
 # html-tag-extractor
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/clickthisnick/html-tag-extractor.svg)](https://greenkeeper.io/)
 This extracts unique tags from any html files inside a directory
 
 # Usage:
